@@ -1,9 +1,27 @@
 (in-package :clobber)
 
 ;; Assets
-(defparameter *grass-sprite-path*
-  #p"grass.png")
+
+;; This should either be turned into a macro or another lookup table
+
+;; Macro could look like:
+(defmacro make-sprite (name filename)
+  `(defparameter ,(concatenate 'string "*" `,name "-sprite-path*")
+     (concatenate "#p" ,filename))
+  `(defvar (concatenate 'string "*" ,name "-sprite*")))
+
+(defparameter *grass-sprite-path* #p"grass.png")
 (defvar *grass-sprite*)
+
+(defparameter *player-sprite-path* #p"player.png")
+(defvar *grass-sprite*)
+
+;; Item Dictionary
+(defparameter *object-hash-table*
+  '((0 . 'empty)
+    (1 . 'player)
+    (2 . 'earth)
+    (3 . 'stone)))
 
 ;; TILES
 
@@ -36,10 +54,35 @@
    (y-position :initform 100)
    (weapon     :initform nil)))
 
-(defclass player (npc)
-  ((altitude :initform 0 :accessor altitude)))
+(defparameter rucksack '((1 . 0)
+                         (2 . 0)
+                         (3 . 0)
+                         (4 . 0)
+                         (5 . 0)
+                         (6 . 0)
+                         (7 . 0)
+                         (8 . 0)))
 
-(defclass mob    (npc) ())
+;;  To generate the skill map we can ask the player a bunch
+;;  of silly sort of relevant questions that deduce a set of
+;;  values for (rand x y) forms ... which reminds me:
+(defun rand (min max)
+  (+ min (random max)))
+
+(defclass player (npc)
+  ((altitude :initform 0 :accessor altitude)
+   (level :initarg :level :accessor level)
+   (xp :initarg :xp :accessor xp)
+   (hp :initarg :hp :accessor hp)
+   (ap :initarg :ap :accessor ap)
+   (wis :initarg :wis :accessor wis)
+   (dex :initarg :dex :accessor dex)
+   (str :initarg :str :accessor str)
+   (spd :initarg :spd :accessor spd)))
+
+(defclass mob (npc)
+  ((ranged-weapon :accessor ranged-weapon)
+   (poisonous :accessor poisonous)))
 
 (defparameter *random-color* sdl:*white*)
 (defparameter *console* nil)

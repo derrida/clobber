@@ -9,10 +9,21 @@
 ;;; [ ]  Add function to write out the world so it can persist
 
 
-(defparameter *level-0* (make-array '(10 10) :initial-element 1)
+(defparameter *level-0* (make-array '(10 10)
+                                    :initial-contents '((2 2 2 2 2 2 2 2 2 2)
+                                                        (2 2 2 2 2 2 2 2 2 2)
+                                                        (2 2 2 2 2 2 2 2 2 2)
+                                                        (2 2 2 2 2 2 2 2 2 2)
+                                                        (2 2 2 2 1 2 2 2 2 2)
+                                                        (2 2 2 2 2 2 2 2 2 2)
+                                                        (2 2 2 2 2 2 2 2 2 2)
+                                                        (2 2 2 2 2 2 2 2 2 2)
+                                                        (2 2 2 2 2 2 2 2 2 2)
+                                                        (2 2 2 2 2 2 2 2 2 2)))
   "The grassy knoll where player starts")
 
-(defparameter *level-1* (make-array '(10 10) :initial-element 1)
+(defparameter *level-1* (make-array '(10 10)
+                                    :initial-element 1)
   "The grassy floor beneath the player where she starts")
 
 (defparameter *world* (list *level-0* *level-1*)
