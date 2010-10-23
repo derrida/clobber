@@ -90,8 +90,17 @@
 ;;  To generate the skill map we can ask the player a bunch
 ;;  of silly sort of relevant questions that deduce a set of
 ;;  values for (rand x y) forms ... which reminds me:
-(defun rand (min max)
-  (+ min (random max)))
+(defun rand (low high)
+  (+ (random (- high low))
+     low))
+
+(declaim (inline bound))
+(defun bound (number min max)
+  (if (< number min)
+      min
+      (if (> number max)
+          max
+          number)))
 
 (defclass player (npc)
   ((altitude :initform 0 :accessor altitude)
