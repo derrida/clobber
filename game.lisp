@@ -5,10 +5,41 @@
 ;; This should either be turned into a macro or another lookup table
 
 ;; Macro could look like:
-(defmacro make-sprite (name filename)
-  `(defparameter ,(concatenate 'string "*" `,name "-sprite-path*")
-     (concatenate "#p" ,filename))
-  `(defvar (concatenate 'string "*" ,name "-sprite*")))
+;; (defmacro make-sprite (name filename)
+;;            (let ((sym1 (concatenate 'string "*" name "-sprite-path*"))
+;;                  (path (concatenate 'string "#p\"" filename "\""))
+;;                  (sym2 (concatenate 'string "*" name "-sprite*")))
+;;              (values `(format nil "(defparameter ~A ~A)" ',sym1 ,path)
+;;                      `(format nil "(defvar ~A)" ,sym2))))
+
+;; Item Dictionary
+(defparameter *object-lookup-table* (make-hash-table)
+  "This hash-table will contain a set of object-id-numbers/object-name pairs.")
+
+(defun add-object-to-lookup-table (id name)
+  (setf (gethash id *object-lookup-table*) name))
+
+(defun initialize-*object-lookup-table* ()
+  (add-object-to-lookup-table 0 'empty)
+  (add-object-to-lookup-table 1 'player)
+  (add-object-to-lookup-table 2 'earth)
+  (add-object-to-lookup-table 3 'stone))
+
+
+;; Sprite Dictionary
+(defparameter *sprite-lookup-table* (make-hash-table)
+  "This hash-table will contain a set of sprite-name/sprite-pathname pairs.")
+
+(defun add-sprite-to-lookup-table (name filename)
+  "This function adds a sprite/path pair to the *sprite-lookup-table* hash-table."
+  (setf (gethash name *sprite-lookup-table*) filename))
+
+(defun initialize-*sprite-lookup-table* ()
+  "This function initializes the *sprite-lookup-value* with it's starting values."
+  (add-sprite-to-lookup-table 'empty  #p"empty.png")
+  (add-sprite-to-lookup-table 'player #p"player.png")
+  (add-sprite-to-lookup-table 'earth  #p"earth.png")
+  (add-sprite-to-lookup-table 'stone  #p"stone.png"))
 
 (defparameter *grass-sprite-path* #p"grass.png")
 (defvar *grass-sprite*)
@@ -16,15 +47,7 @@
 (defparameter *player-sprite-path* #p"player.png")
 (defvar *grass-sprite*)
 
-;; Item Dictionary
-(defparameter *object-hash-table*
-  '((0 . 'empty)
-    (1 . 'player)
-    (2 . 'earth)
-    (3 . 'stone)))
-
 ;; TILES
-
 (defclass tile ()
   ((blocks-light :accessor blocks-light :initform nil)
    (blocks-move :accessor blocks-move :initform nil)
@@ -44,7 +67,8 @@
    (hit-points :accessor hp    :initform nil        :initarg :hp    :type fixnum)
    (color      :accessor color :initform sdl:*cyan* :initarg :color :type sdl:color)))
 
-(defclass item (unit) ())
+(defclass item (unit)
+  ((owner :initform nil)))
 
 (defclass tool (item) ())
 
