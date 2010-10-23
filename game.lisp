@@ -2,7 +2,7 @@
 
 ;; Assets
 (defparameter *grass-sprite-path*
-  #p"/home/derrida/quicklisp/dists/polyvalent/software/clobber/grass.png")
+  #p"grass.png")
 (defvar *grass-sprite*)
 
 ;; TILES
