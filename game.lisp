@@ -45,7 +45,7 @@
 (defparameter *gameboard* (make-array '(20 20)))
 (defparameter *player* (make-instance 'player :y 10 :x 10 :color *random-color*))
 (defparameter *mob* (list (make-instance 'mob :x (random 200) :y (random 200))))
-(defparameter *grass-tile* (make-instance 'tile :sprite *grass-sprite*))
+(defparameter *grass-tile* (make-instance 'tile :sprite nil))
 
 (defun get-player-location ()
   (values (x-pos *player*) (y-pos *player*)))
@@ -101,7 +101,7 @@
   (sdl:enable-unicode)
   (sdl-ttf:init-ttf)
   (sdl:enable-key-repeat 500 150)
-  (setf *grass-sprite* (sdl:load-image *grass-sprite-path*)))
+  (setf (sprite *grass-tile*) (sdl:load-image *grass-sprite-path*)))
 
 (defun draw ()
   "This code is looped repeatedly while main is run. The order of drawing code is important."
