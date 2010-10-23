@@ -36,6 +36,9 @@
   (setf *level-0* (make-array '(10 10) :initial-element 1))
   (setf *world* (list *level-0* *level-1*)))
 
+(defun value-at (x y)
+  (aref (level-under-player) x y))
+
 (defun level-under-player ()
   (nth (+ (altitude *player*) 1) *world*))
 

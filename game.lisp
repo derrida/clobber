@@ -19,12 +19,11 @@
 (defun add-object-to-lookup-table (id name)
   (setf (gethash id *object-lookup-table*) name))
 
-(defun initialize-*object-lookup-table* ()
+(defun initialize-object-lookup-table ()
   (add-object-to-lookup-table 0 'empty)
   (add-object-to-lookup-table 1 'player)
   (add-object-to-lookup-table 2 'earth)
   (add-object-to-lookup-table 3 'stone))
-
 
 ;; Sprite Dictionary
 (defparameter *sprite-lookup-table* (make-hash-table)
@@ -32,9 +31,9 @@
 
 (defun add-sprite-to-lookup-table (name filename)
   "This function adds a sprite/path pair to the *sprite-lookup-table* hash-table."
-  (setf (gethash name *sprite-lookup-table*) filename))
+  (setf (gethash name *sprite-lookup-table*) (sdl:load-image filename)))
 
-(defun initialize-*sprite-lookup-table* ()
+(defun initialize-sprite-lookup-table ()
   "This function initializes the *sprite-lookup-value* with it's starting values."
   (add-sprite-to-lookup-table 'empty  #p"empty.png")
   (add-sprite-to-lookup-table 'player #p"player.png")
@@ -135,8 +134,8 @@
   (:method ((mob mob) x y)
     (sdl:draw-box-* (x-pos *mob*) (y-pos *mob*) 2 2
                     :color (color *player*)))
-  (:method ((tile tile) x y)    
-    (sdl:draw-surface-at-* (sprite tile) x y)))
+  (:method ((sprite sdl:surface) x y)    
+    (sdl:draw-surface-at-* sprite x y)))
 
 (defgeneric create (unit)
   (:documentation "Creates any type of unit and pushes it onto that unit's stack.")
@@ -153,11 +152,17 @@
   "Writes text to the default sdl surface"
   (sdl:draw-string-solid-* string x y))
 
-(defun render-tiles (tile)
+(defun render-tiles ()
   "This function renders  tiles across the default SDL window."
-  (loop for i from 0 to 192 by 8 do
-       (loop for j from 0 to 192 by 8 do
-            (render tile i j))))
+  (loop for i from 0 to 10 do
+       (loop for j from 0 to 10 do
+            (render (lookup-sprite (lookup-object (value-at i j))) i j))))
+
+(defun lookup-object (id)
+  (gethash id *object-lookup-table*))
+
+(defun lookup-sprite (object)
+  (gethash object *sprite-lookup-table*))
 
 (defun maparray (fn arr)
   "This function maps a function across the values of an array destructively."
@@ -178,11 +183,12 @@
   (sdl:enable-unicode)
   (sdl-ttf:init-ttf)
   (sdl:enable-key-repeat 500 150)
-  (setf (sprite *grass-tile*) (sdl:load-image *grass-sprite-path*)))
+  (initialize-object-lookup-table)
+  (initialize-sprite-lookup-table))
 
 (defun draw ()
   "This code is looped repeatedly while main is run. The order of drawing code is important."
-  (render-tiles *grass-tile*)
+  (render-tiles)
   (render *player* (x-pos *player*) (y-pos *player*)))
 
 (defun on-key-down-event (key)
