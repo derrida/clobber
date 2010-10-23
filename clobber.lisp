@@ -1,6 +1,6 @@
 ;;;; clobber.lisp
 
-(in-package #:clobber)
+(in-package :clobber)
 
 ;;; "clobber" goes here. Hacks and glory await!
 

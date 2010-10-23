@@ -1,0 +1,25 @@
+Tiles                                        
+  Abyss Tile (name?)                         
+  Earth
+  Grass?
+  Stone
+Objects
+  Trees
+  Chest
+  Water
+  Lava
+
+Planes (maps)
+Items
+  Material
+    Building
+    Crafting
+  Tools
+    Crafting Tools
+    Digging/Harvesting Tools
+    Weapons
+    Light Sources
+Mobs
+  Player
+  Aggross  NPCs
+  Friendly Animals

@@ -1,5 +1,6 @@
 ;;;; package.lisp
+(defpackage :clobber
+  (:use #:cl #:iterate)
+  (:export #:start))
 
-(defpackage #:clobber
-  (:use #:cl))
-
+(in-package :clobber)
