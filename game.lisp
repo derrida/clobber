@@ -36,7 +36,8 @@
    (y-position :initform 100)
    (weapon     :initform nil)))
 
-(defclass player (npc) ())
+(defclass player (npc)
+  ((altitude :initform 0 :accessor altitude)))
 
 (defclass mob    (npc) ())
 
