@@ -1,1 +1,1 @@
-This is the stub README.txt for the "clobber" project.
+The clobber project began it's flight at midnight on October 23rd 2010.
