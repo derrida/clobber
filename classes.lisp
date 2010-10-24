@@ -46,6 +46,14 @@
 
 (defclass rucksack (container) ())
 
+(defclass player (mob)
+  ((layer :initform 0 :accessor layer)
+   (xp :initarg :xp :accessor xp)))
+
+(defclass aggro (mob)
+  ((ranged-weapon :accessor ranged-weapon)
+   (poisonous :accessor poisonous)))
+
 (defgeneric move (layer obj nx ny)
   (:method (layer (player player) nx ny)
     (setf (aref (nth layer *world*) (y-pos player) (x-pos player)) 0)

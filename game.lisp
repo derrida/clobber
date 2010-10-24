@@ -62,14 +62,6 @@
           max
           number)))
 
-(defclass player (mob)
-  ((layer :initform 0 :accessor layer)
-   (xp :initarg :xp :accessor xp)))
-
-(defclass aggro (mob)
-  ((ranged-weapon :accessor ranged-weapon)
-   (poisonous :accessor poisonous)))
-
 (defparameter *player* (make-instance 'player :y 0 :x 0))
 (defparameter *mobs* (list (make-instance 'mob :x (random 200) :y (random 200))))
 
