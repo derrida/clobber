@@ -6,7 +6,7 @@
                :lispbuilder-sdl-image
                :bordeaux-threads
                :iterate)
-  :components ((:file "classes")
-               (:file "package")
+  :components ((:file "package")
+               (:file "classes")               
                (:file "game")
                (:file "model")))
