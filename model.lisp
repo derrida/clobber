@@ -61,17 +61,3 @@
 (defun layer-above-player ()
   (nth (- (layer *player*) 1) *world*))
 
-(defgeneric move (layer obj nx ny)
-  (:method (layer (player player) nx ny)
-    (setf (aref (nth layer *world*) (y-pos player) (x-pos player)) 0)
-    (setf (x-pos player) nx)
-    (setf (y-pos player) ny)
-    (setf (aref (nth layer *world*) ny nx) 1)))
-
-
-; brainstorming
-;
-;(defgeneric dig (tool object)
-;  (:documentation "The dig function decides the outcome of using a certain tool on an object")
-;  (:method ((tool shovel) (object earth))
-;    (create 'dirt)))

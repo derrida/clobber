@@ -76,27 +76,6 @@
 (defun get-player-location ()
   (values (x-pos *player*) (y-pos *player*)))
 
-(defgeneric render (unit x y)
-  (:documentation "Renders a unit onto the default sdl window.")
-  (:method ((player player) x y)
-    (sdl:draw-surface-at-* (lookup-sprite 'player) (* x 8) (* y 8)))
-   (:method ((mob mob) x y)
-     (sdl:draw-box-* (x-pos (first *mobs*)) (y-pos (first *mobs*)) 2 2
-                     :color (color *player*)))
-  (:method ((sprite sdl:surface) x y)    
-    (sdl:draw-surface-at-* sprite x y)))
-
-(defgeneric create (unit)
-  (:documentation "Creates any type of unit and pushes it onto that unit's stack.")
-  (:method ((player player))
-    (make-instance 'player :x 0
-                           :y 0
-                           :color sdl:*red*))
-  ;; (:method ((mob mob))
-  ;;   (push (make-instance 'mob :x (random 200)
-  ;;                             :y (random 200)
-  ;;                             :color sdl:*red*) *mob*))
-  )
 
 (defun text (string x y)
   "Writes text to the default sdl surface"

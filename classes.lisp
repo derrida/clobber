@@ -45,3 +45,40 @@
    (slot-8 :initform nil)))
 
 (defclass rucksack (container) ())
+
+(defgeneric move (layer obj nx ny)
+  (:method (layer (player player) nx ny)
+    (setf (aref (nth layer *world*) (y-pos player) (x-pos player)) 0)
+    (setf (x-pos player) nx)
+    (setf (y-pos player) ny)
+    (setf (aref (nth layer *world*) ny nx) 1)))
+
+
+(defgeneric render (unit x y)
+  (:documentation "Renders a unit onto the default sdl window.")
+  (:method ((player player) x y)
+    (sdl:draw-surface-at-* (lookup-sprite 'player) (* x 8) (* y 8)))
+   (:method ((mob mob) x y)
+     (sdl:draw-box-* (x-pos (first *mobs*)) (y-pos (first *mobs*)) 2 2
+                     :color (color *player*)))
+  (:method ((sprite sdl:surface) x y)    
+    (sdl:draw-surface-at-* sprite x y)))
+
+(defgeneric create (unit)
+  (:documentation "Creates any type of unit and pushes it onto that unit's stack.")
+  (:method ((player player))
+    (make-instance 'player :x 0
+                           :y 0
+                           :color sdl:*red*))
+  ;; (:method ((mob mob))
+  ;;   (push (make-instance 'mob :x (random 200)
+  ;;                             :y (random 200)
+  ;;                             :color sdl:*red*) *mob*))
+  )
+
+; brainstorming
+;
+;(defgeneric dig (tool object)
+;  (:documentation "The dig function decides the outcome of using a certain tool on an object")
+;  (:method ((tool shovel) (object earth))
+;    (create 'dirt)))
