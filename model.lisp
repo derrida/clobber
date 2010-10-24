@@ -2,7 +2,7 @@
 
 ;;; TODO: 
 ;;; [ ]  Add slot to player class that tells us which level the
-;;;      player is currently on. (altitude?)
+;;;      player is currently on. (layer?)
 ;;;
 ;;; [ ]  Add slot to items which can be used to map them to a fixnum (integer)
 ;;;
@@ -52,13 +52,13 @@
   (aref layer y x))
 
 (defun layer-under-player ()
-  (nth (+ (altitude *player*) 1) *world*))
+  (nth (+ (layer *player*) 1) *world*))
 
 (defun layer-at-player ()
-  (nth (altitude *player*) *world*))
+  (nth (layer *player*) *world*))
 
 (defun layer-above-player ()
-  (nth (- (altitude *player*) 1) *world*))
+  (nth (- (layer *player*) 1) *world*))
 
 
 ; brainstorming
