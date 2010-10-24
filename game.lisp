@@ -40,12 +40,6 @@
   (add-sprite-to-lookup-table 'earth  #p"earth.png")
   (add-sprite-to-lookup-table 'stone  #p"stone.png"))
 
-(defparameter *grass-sprite-path* #p"grass.png")
-(defvar *grass-sprite*)
-
-(defparameter *player-sprite-path* #p"player.png")
-(defvar *grass-sprite*)
-
 ;; TILES
 (defclass tile ()
   ((blocks-light :accessor blocks-light :initform nil)
@@ -157,10 +151,10 @@
        (loop for j from 0 to 9 do
             (render (lookup-sprite (lookup-object (value-at i j))) (* i 8) (* j 8))
             (let ((val (layer-value-at (layer-at-player) i j)))
-            (if (> val 0)
-              (render (lookup-sprite (lookup-object val)) (* i 8) (* j 8)))))))
+              (if (> val 0)
+                (render (lookup-sprite (lookup-object val)) (* i 8) (* j 8)))))))
 
-  (defun lookup-object (id)
+(defun lookup-object (id)
   (gethash id *object-lookup-table*))
 
 (defun lookup-sprite (object)
