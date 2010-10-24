@@ -42,7 +42,8 @@
   (push (make-array '(10 10)) *world*))
 
 (defun reset-world ()
-  (setf *layer-0* (make-array '(10 10) :initial-element 1))
+  (setf *layer-0* (make-array '(10 10) :initial-element 0))
+  (setf (aref *layer-0* 5 5) 1)
   (setf *world* (list *layer-0* *layer-1*)))
 
 (defun value-at (x y)
@@ -59,6 +60,13 @@
 
 (defun layer-above-player ()
   (nth (- (layer *player*) 1) *world*))
+
+(defgeneric move (layer obj nx ny)
+  (:method (layer (obj player) nx ny)
+    (setf (aref (nth layer *world*) (x-pos obj) (y-pos obj)) 0)
+    (setf (x-pos obj) nx)
+    (setf (y-pos obj) ny)
+    (setf (aref (nth layer *world*) nx ny) 1)))
 
 
 ; brainstorming

@@ -193,10 +193,10 @@
 (defun on-key-down-event (key)
   "This code is run on when an sdl key-down event is detected."
   (case key
-    (:sdl-key-up (decf (y-pos *player*)))
-    (:sdl-key-down (incf (y-pos *player*)))
-    (:sdl-key-left (decf (x-pos *player*)))
-    (:sdl-key-right (incf (x-pos *player*)))
+    (:sdl-key-up (move (layer *player*) *player* (x-pos *player*) (- (y-pos *player*) 1)))
+    (:sdl-key-down (move (layer *player*) *player* (x-pos *player*) (+ (y-pos *player*) 1)))
+    (:sdl-key-left (move (layer *player*) *player* (- (x-pos *player*) 1) (y-pos *player*)))
+    (:sdl-key-right (move (layer *player*) *player* (+ (x-pos *player*) 1) (y-pos *player*)))
     (:sdl-key-escape (sdl:push-quit-event))))
 
 (defun on-button-down-event (button)  
