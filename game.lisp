@@ -116,7 +116,7 @@
   ((ranged-weapon :accessor ranged-weapon)
    (poisonous :accessor poisonous)))
 
-(defparameter *player* (make-instance 'player :y 0 :x 0 :color *random-color*))
+(defparameter *player* (make-instance 'player :y 0 :x 0))
 (defparameter *mobs* (list (make-instance 'mob :x (random 200) :y (random 200))))
 
 (defun get-player-location ()
@@ -151,14 +151,10 @@
   "This function renders  tiles across the default SDL window."
   (loop for i from 0 to 9 do
        (loop for j from 0 to 9 do
-            (render (lookup-sprite (lookup-object (value-at i j))) (* i 8) (* j 8))))
-  ; Render the layer at the height of the player for now.          
-  (loop for i from 0 to 9 do
-       (loop for j from 0 to 9 do
-         (let ((val (level-value-at (level-at-player) i j)))
+            (render (lookup-sprite (lookup-object (value-at i j))) (* i 8) (* j 8))
+            (let ((val (layer-value-at (layer-at-player) i j)))
             (if (> val 0)
-              (render (lookup-sprite (lookup-object val)) (* i 8) (* j 8))
-              ())))))
+              (render (lookup-sprite (lookup-object val)) (* i 8) (* j 8)))))))
 
 (defun lookup-object (id)
   (gethash id *object-lookup-table*))
