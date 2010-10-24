@@ -9,7 +9,7 @@
 ;;; [ ]  Add function to write out the world so it can persist
 
 
-(defparameter *level-0* (make-array '(10 10)
+(defparameter *layer-0* (make-array '(10 10)
                                     :initial-contents '((0 0 0 0 0 0 0 0 0 0)
                                                         (0 0 0 0 0 0 0 0 0 0)
                                                         (0 0 0 0 0 0 0 0 0 0)
@@ -22,7 +22,7 @@
                                                         (0 0 0 0 0 0 0 0 0 0)))
   "The grassy knoll where player starts")
 
-(defparameter *level-1* (make-array '(10 10)
+(defparameter *layer-1* (make-array '(10 10)
                                     :initial-contents '((2 2 2 2 2 2 2 2 2 2)
                                                         (2 2 2 2 2 2 2 2 2 2)
                                                         (2 2 2 2 2 2 2 2 2 2)
@@ -35,29 +35,29 @@
                                                         (2 2 2 2 2 2 2 2 2 2)))
   "The grassy floor beneath the player where she starts")
 
-(defparameter *world* (list *level-0* *level-1*)
-  "The *world* is a list made of 10x10 levels")
+(defparameter *world* (list *layer-0* *layer-1*)
+  "The *world* is a list made of 10x10 layers")
 
-(defun add-level ()
-  (push (make-array '(10 10)) *levels*))
+(defun add-layer ()
+  (push (make-array '(10 10)) *layers*))
 
 (defun reset-world ()
-  (setf *level-0* (make-array '(10 10) :initial-element 1))
-  (setf *world* (list *level-0* *level-1*)))
+  (setf *layer-0* (make-array '(10 10) :initial-element 1))
+  (setf *world* (list *layer-0* *layer-1*)))
 
 (defun value-at (x y)
-  (aref (level-under-player) y x))
+  (aref (layer-under-player) y x))
 
-(defun level-value-at (level x y)
-  (aref level y x))
+(defun layer-value-at (layer x y)
+  (aref layer y x))
 
-(defun level-under-player ()
+(defun layer-under-player ()
   (nth (+ (altitude *player*) 1) *world*))
 
-(defun level-at-player ()
+(defun layer-at-player ()
   (nth (altitude *player*) *world*))
 
-(defun level-above-player ()
+(defun layer-above-player ()
   (nth (- (altitude *player*) 1) *world*))
 
 
