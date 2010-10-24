@@ -24,7 +24,8 @@
   (add-object-to-lookup-table 0 'empty)
   (add-object-to-lookup-table 1 'player)
   (add-object-to-lookup-table 2 'earth)
-  (add-object-to-lookup-table 3 'stone))
+  (add-object-to-lookup-table 3 'stone)
+  (add-object-to-lookup-table 4 'grass))
 
 ;; Sprite Dictionary
 (defparameter *sprite-lookup-table* (make-hash-table)
@@ -32,15 +33,19 @@
 
 (defun add-sprite-to-lookup-table (name filename)
   "This function adds a sprite/path pair to the *sprite-lookup-table* hash-table."
-  (setf (gethash name *sprite-lookup-table*) (sdl:load-image filename))
-  (push (sdl:load-image filename) sdl:*default-image-path*))
+  (setf (gethash name *sprite-lookup-table*) (sdl:load-image filename)))
+  ;(push (sdl:load-image filename) sdl:*default-image-path*))
 
-(defun initialize-sprite-lookup-table ()
-  "This function initializes the *sprite-lookup-value* with it's starting values."
-  (add-sprite-to-lookup-table 'empty  "empty.png")
-  (add-sprite-to-lookup-table 'player "player.png")
-  (add-sprite-to-lookup-table 'earth  "earth.png")
-  (add-sprite-to-lookup-table 'stone  "stone.png"))
+(defun load-sprite-lookup-table ()
+  "This function initializes the *sprite-lookup-table* with it's starting values."
+  (add-sprite-to-lookup-table 'empty  #p"empty.png")
+  (add-sprite-to-lookup-table 'player #p"player.png")
+  (add-sprite-to-lookup-table 'earth  #p"earth.png")
+  (add-sprite-to-lookup-table 'stone  #p"stone.png")
+  (add-sprite-to-lookup-table 'grass  #p"grass.png"))
+
+;; (defun initialize-sprites ()
+;;   (maphash #'sdl:load-image *sprite-lookup-table*))
 
 ;; TILES
 (defclass tile ()
@@ -121,9 +126,9 @@
   (:documentation "Renders a unit onto the default sdl window.")
   (:method ((player player) x y)
     (sdl:draw-surface-at-* (lookup-sprite 'player) (* x 8) (* y 8)))
-  ;; (:method ((mob mob) x y)
-  ;;   (sdl:draw-box-* (x-pos *mob*) (y-pos *mob*) 2 2
-  ;;                   :color (color *player*)))
+   (:method ((mob mob) x y)
+     (sdl:draw-box-* (x-pos (first *mobs*)) (y-pos (first *mobs*)) 2 2
+                     :color (color *player*)))
   (:method ((sprite sdl:surface) x y)    
     (sdl:draw-surface-at-* sprite x y)))
 
@@ -147,10 +152,10 @@
   "This function renders  tiles across the default SDL window."
   (loop for i from 0 to 9 do
        (loop for j from 0 to 9 do
-            (render (lookup-sprite (lookup-object (value-at i j))) (* i 8) (* j 8))
             (let ((val (layer-value-at (layer-at-player) i j)))
-              (if (> val 0)
-                (render (lookup-sprite (lookup-object val)) (* i 8) (* j 8)))))))
+              (render (lookup-sprite (lookup-object (value-at i j))) (* i 8) (* j 8))
+              (when (> val 0)
+                  (render (lookup-sprite (lookup-object val)) (* i 8) (* j 8)))))))
 
 (defun lookup-object (id)
   (gethash id *object-lookup-table*))
