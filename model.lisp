@@ -62,10 +62,10 @@
   (nth (- (layer *player*) 1) *world*))
 
 (defgeneric move (layer obj nx ny)
-  (:method (layer (obj player) nx ny)
-    (setf (aref (nth layer *world*) (x-pos obj) (y-pos obj)) 0)
-    (setf (x-pos obj) nx)
-    (setf (y-pos obj) ny)
+  (:method (layer (player player) nx ny)
+    (setf (aref (nth layer *world*) (x-pos player) (y-pos player)) 0)
+    (setf (x-pos player) nx)
+    (setf (y-pos player) ny)
     (setf (aref (nth layer *world*) nx ny) 1)))
 
 
