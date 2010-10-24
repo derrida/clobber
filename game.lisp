@@ -116,12 +116,8 @@
   ((ranged-weapon :accessor ranged-weapon)
    (poisonous :accessor poisonous)))
 
-(defparameter *random-color* sdl:*white*)
-(defparameter *console* nil)
-(defparameter *gameboard* (make-array '(20 20)))
 (defparameter *player* (make-instance 'player :y 0 :x 0 :color *random-color*))
-(defparameter *mob* (list (make-instance 'mob :x (random 200) :y (random 200))))
-(defparameter *grass-tile* (make-instance 'tile :sprite nil))
+(defparameter *mobs* (list (make-instance 'mob :x (random 200) :y (random 200))))
 
 (defun get-player-location ()
   (values (x-pos *player*) (y-pos *player*)))
