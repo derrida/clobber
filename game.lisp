@@ -35,10 +35,10 @@
 
 (defun initialize-sprite-lookup-table ()
   "This function initializes the *sprite-lookup-value* with it's starting values."
-  (add-sprite-to-lookup-table 'empty  #p"empty.png")
-  (add-sprite-to-lookup-table 'player #p"player.png")
-  (add-sprite-to-lookup-table 'earth  #p"earth.png")
-  (add-sprite-to-lookup-table 'stone  #p"stone.png"))
+  (add-sprite-to-lookup-table 'empty  "empty.png")
+  (add-sprite-to-lookup-table 'player "player.png")
+  (add-sprite-to-lookup-table 'earth  "earth.png")
+  (add-sprite-to-lookup-table 'stone  "stone.png"))
 
 ;; TILES
 (defclass tile ()
@@ -99,15 +99,12 @@
           number)))
 
 (defclass player (npc)
-  ((altitude :initform 0 :accessor altitude)
+  ((layer :initform 0 :accessor layer)
    (level :initarg :level :accessor level)
    (xp :initarg :xp :accessor xp)
    (hp :initarg :hp :accessor hp)
-   (ap :initarg :ap :accessor ap)
-   (wis :initarg :wis :accessor wis)
-   (dex :initarg :dex :accessor dex)
-   (str :initarg :str :accessor str)
-   (spd :initarg :spd :accessor spd)))
+   (def :initarg :dex :accessor def)
+   (att :initarg :str :accessor att)))
 
 (defclass mob (npc)
   ((ranged-weapon :accessor ranged-weapon)
