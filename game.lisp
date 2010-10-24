@@ -155,7 +155,14 @@
   "This function renders  tiles across the default SDL window."
   (loop for i from 0 to 9 do
        (loop for j from 0 to 9 do
-            (render (lookup-sprite (lookup-object (value-at j i))) (* i 8) (* j 8)))))
+            (render (lookup-sprite (lookup-object (value-at i j))) (* i 8) (* j 8))))
+  ; Render the layer at the height of the player for now.          
+  (loop for i from 0 to 9 do
+       (loop for j from 0 to 9 do
+         (let ((val (level-value-at (level-at-player) i j)))
+            (if (> val 0)
+              (render (lookup-sprite (lookup-object val)) (* i 8) (* j 8))
+              ())))))
 
 (defun lookup-object (id)
   (gethash id *object-lookup-table*))

@@ -14,7 +14,7 @@
                                                         (0 0 0 0 0 0 0 0 0 0)
                                                         (0 0 0 0 0 0 0 0 0 0)
                                                         (0 0 0 0 0 0 0 0 0 0)
-                                                        (0 0 0 0 0 0 0 0 0 0)
+                                                        (0 0 0 0 1 0 0 0 0 0)
                                                         (0 0 0 0 0 0 0 0 0 0)
                                                         (0 0 0 0 0 0 0 0 0 0)
                                                         (0 0 0 0 0 0 0 0 0 0)
@@ -27,7 +27,7 @@
                                                         (2 2 2 2 2 2 2 2 2 2)
                                                         (2 2 2 2 2 2 2 2 2 2)
                                                         (2 2 2 2 2 2 3 3 2 2)
-                                                        (2 2 2 2 1 2 3 3 2 2)
+                                                        (2 2 2 2 2 2 3 3 2 2)
                                                         (2 2 2 2 2 2 2 2 2 2)
                                                         (2 2 2 2 2 2 2 2 2 2)
                                                         (2 2 2 2 2 2 2 2 2 2)
@@ -46,10 +46,16 @@
   (setf *world* (list *level-0* *level-1*)))
 
 (defun value-at (x y)
-  (aref (level-under-player) x y))
+  (aref (level-under-player) y x))
+
+(defun level-value-at (level x y)
+  (aref level y x))
 
 (defun level-under-player ()
   (nth (+ (altitude *player*) 1) *world*))
+
+(defun level-at-player ()
+  (nth (altitude *player*) *world*))
 
 (defun level-above-player ()
   (nth (- (altitude *player*) 1) *world*))
