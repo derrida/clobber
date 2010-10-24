@@ -77,14 +77,17 @@
    (y-position :initform 100)
    (weapon     :initform nil)))
 
-(defparameter rucksack '((1 . 0)
-                         (2 . 0)
-                         (3 . 0)
-                         (4 . 0)
-                         (5 . 0)
-                         (6 . 0)
-                         (7 . 0)
-                         (8 . 0)))
+(defclass container (item)
+  ((slot-1 :initform nil)
+   (slot-2 :initform nil)
+   (slot-3 :initform nil)
+   (slot-4 :initform nil)
+   (slot-5 :initform nil)
+   (slot-6 :initform nil)
+   (slot-7 :initform nil)
+   (slot-8 :initform nil)))
+
+(defclass rucksack (container) ())
 
 ;;  To generate the skill map we can ask the player a bunch
 ;;  of silly sort of relevant questions that deduce a set of
