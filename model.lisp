@@ -39,7 +39,7 @@
   "The *world* is a list made of 10x10 layers")
 
 (defun add-layer ()
-  (push (make-array '(10 10)) *layers*))
+  (push (make-array '(10 10)) *world*))
 
 (defun reset-world ()
   (setf *layer-0* (make-array '(10 10) :initial-element 1))
