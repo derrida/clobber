@@ -187,8 +187,7 @@
 
 (defun draw ()
   "This code is looped repeatedly while main is run. The order of drawing code is important."
-  (render-tiles)
-  (render *player* (x-pos *player*) (y-pos *player*)))
+  (render-tiles))
 
 (defun on-key-down-event (key)
   "This code is run on when an sdl key-down event is detected."

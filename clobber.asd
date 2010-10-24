@@ -7,5 +7,5 @@
                :bordeaux-threads
                :iterate)
   :components ((:file "package")
-               (:file "model")
-               (:file "game")))
+               (:file "game")
+               (:file "model")))
