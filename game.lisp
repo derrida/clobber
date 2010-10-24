@@ -119,7 +119,7 @@
 (defparameter *random-color* sdl:*white*)
 (defparameter *console* nil)
 (defparameter *gameboard* (make-array '(20 20)))
-(defparameter *player* (make-instance 'player :y 10 :x 10 :color *random-color*))
+(defparameter *player* (make-instance 'player :y 0 :x 0 :color *random-color*))
 (defparameter *mob* (list (make-instance 'mob :x (random 200) :y (random 200))))
 (defparameter *grass-tile* (make-instance 'tile :sprite nil))
 
@@ -129,8 +129,7 @@
 (defgeneric render (unit x y)
   (:documentation "Renders a unit onto the default sdl window.")
   (:method ((player player) x y)
-    (sdl:draw-box-* x y 2 2
-                    :color (color *player*)))
+    (sdl:draw-surface-at-* (lookup-sprite 'player) (* x 8) (* y 8)))
   (:method ((mob mob) x y)
     (sdl:draw-box-* (x-pos *mob*) (y-pos *mob*) 2 2
                     :color (color *player*)))
@@ -140,8 +139,8 @@
 (defgeneric create (unit)
   (:documentation "Creates any type of unit and pushes it onto that unit's stack.")
   (:method ((player player))
-    (make-instance 'player :x 200
-                           :y 200
+    (make-instance 'player :x 0
+                           :y 0
                            :color sdl:*red*))
   (:method ((mob mob))
     (push (make-instance 'mob :x (random 200)
@@ -154,9 +153,9 @@
 
 (defun render-tiles ()
   "This function renders  tiles across the default SDL window."
-  (loop for i from 0 to 10 do
-       (loop for j from 0 to 10 do
-            (render (lookup-sprite (lookup-object (value-at i j))) i j))))
+  (loop for i from 0 to 9 do
+       (loop for j from 0 to 9 do
+            (render (lookup-sprite (lookup-object (value-at j i))) (* i 8) (* j 8)))))
 
 (defun lookup-object (id)
   (gethash id *object-lookup-table*))
