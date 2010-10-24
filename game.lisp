@@ -36,7 +36,7 @@
   (setf (gethash name *sprite-lookup-table*) (sdl:load-image filename)))
   ;(push (sdl:load-image filename) sdl:*default-image-path*))
 
-(defun load-sprite-lookup-table ()
+(defun initialize-sprite-lookup-table ()
   "This function initializes the *sprite-lookup-table* with it's starting values."
   (add-sprite-to-lookup-table 'empty  #p"empty.png")
   (add-sprite-to-lookup-table 'player #p"player.png")
