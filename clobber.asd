@@ -7,6 +7,8 @@
                :bordeaux-threads
                :iterate)
   :components ((:file "package")
-               (:file "classes")               
+               (:file "classes")
+               (:file "init")
+               (:file "clobber")
                (:file "game")
                (:file "model")))

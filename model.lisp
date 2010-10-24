@@ -7,37 +7,6 @@
 ;;; [ ]  Add slot to items which can be used to map them to a fixnum (integer)
 ;;;
 ;;; [ ]  Add function to write out the world so it can persist
-
-
-(defparameter *layer-0* (make-array '(10 10)
-                                    :initial-contents '((0 0 0 0 0 0 0 0 0 0)
-                                                        (0 0 0 0 0 0 0 0 0 0)
-                                                        (0 0 0 0 0 0 0 0 0 0)
-                                                        (0 0 0 0 0 0 0 0 0 0)
-                                                        (0 0 0 0 1 0 0 0 0 0)
-                                                        (0 0 0 0 0 0 0 0 0 0)
-                                                        (0 0 0 0 0 0 0 0 0 0)
-                                                        (0 0 0 0 0 0 0 0 0 0)
-                                                        (0 0 0 0 0 0 0 0 0 0)
-                                                        (0 0 0 0 0 0 0 0 0 0)))
-  "The grassy knoll where player starts")
-
-(defparameter *layer-1* (make-array '(10 10)
-                                    :initial-contents '((2 2 2 2 2 2 2 2 2 2)
-                                                        (2 2 2 2 2 2 2 2 2 2)
-                                                        (2 2 2 2 2 2 2 2 2 2)
-                                                        (2 2 2 2 2 2 3 3 2 2)
-                                                        (2 2 2 2 2 2 3 3 2 2)
-                                                        (2 2 2 2 2 2 2 2 2 2)
-                                                        (2 2 2 2 2 2 2 2 2 2)
-                                                        (2 2 2 2 2 2 2 2 2 2)
-                                                        (2 2 2 2 2 2 2 2 2 2)
-                                                        (2 2 2 2 2 2 2 2 2 2)))
-  "The grassy floor beneath the player where she starts")
-
-(defparameter *world* (list *layer-0* *layer-1*)
-  "The *world* is a list made of 10x10 layers")
-
 (defun add-layer ()
   (push (make-array '(10 10)) *world*))
 
