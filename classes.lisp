@@ -77,12 +77,12 @@
   (:method ((player player))
     (make-instance 'player :x 0
                            :y 0
-                           :color sdl:*red*))
+                           :color sdl:*red*)))
   ;; (:method ((mob mob))
   ;;   (push (make-instance 'mob :x (random 200)
   ;;                             :y (random 200)
   ;;                             :color sdl:*red*) *mob*))
-  )
+  ;;)
 
 ; brainstorming
 ;

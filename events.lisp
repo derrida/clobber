@@ -1,3 +1,5 @@
+(in-package :clobber)
+
 (defun on-key-down-event (key)
   "This code is run on when an sdl key-down event is detected."
   (case key

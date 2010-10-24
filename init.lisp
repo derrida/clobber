@@ -1,4 +1,6 @@
-;; Item Dictionary
+(in-package :clobber)
+
+    ;; Item Dictionary
 (defparameter *object-lookup-table* (make-hash-table)
   "This hash-table will contain a set of object-id-numbers/object-name pairs.")
 
