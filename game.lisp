@@ -12,6 +12,7 @@
 ;;              (values `(format nil "(defparameter ~A ~A)" ',sym1 ,path)
 ;;                      `(format nil "(defvar ~A)" ,sym2))))
 
+
 ;; Item Dictionary
 (defparameter *object-lookup-table* (make-hash-table)
   "This hash-table will contain a set of object-id-numbers/object-name pairs.")
@@ -31,7 +32,8 @@
 
 (defun add-sprite-to-lookup-table (name filename)
   "This function adds a sprite/path pair to the *sprite-lookup-table* hash-table."
-  (setf (gethash name *sprite-lookup-table*) (sdl:load-image filename)))
+  (setf (gethash name *sprite-lookup-table*) (sdl:load-image filename))
+  (push (sdl:load-image filename) sdl:*default-image-path*))
 
 (defun initialize-sprite-lookup-table ()
   "This function initializes the *sprite-lookup-value* with it's starting values."
@@ -50,6 +52,7 @@
   ((burning :accessor burning :initform nil)))
 
 (defclass grass (tile burnable) ())
+
 (defclass abyss (tile)
   ((blocks-light :initform t)
    (blocks-move :initform t)))
@@ -65,13 +68,15 @@
 
 (defclass tool (item) ())
 
-(defclass npc (unit)
-  ((race       :accessor race :initform 'human :initarg :race)
-   (x-position :initform 100)
-   (y-position :initform 100)
-   (weapon     :initform nil)))
+(defclass mob (unit container)
+  ((race :accessor race :initform 'human :initarg :race)
+   (level :initarg :level :accessor level)
+   (hp :initarg :hp :accessor hp)
+   (def :initarg :dex :accessor def)
+   (att :initarg :str :accessor att)
+   (tool :initarg nil :accessor tool)))
 
-(defclass container (item)
+(defclass container ()
   ((slot-1 :initform nil)
    (slot-2 :initform nil)
    (slot-3 :initform nil)
@@ -98,15 +103,11 @@
           max
           number)))
 
-(defclass player (npc)
+(defclass player (mob)
   ((layer :initform 0 :accessor layer)
-   (level :initarg :level :accessor level)
-   (xp :initarg :xp :accessor xp)
-   (hp :initarg :hp :accessor hp)
-   (def :initarg :dex :accessor def)
-   (att :initarg :str :accessor att)))
+   (xp :initarg :xp :accessor xp)))
 
-(defclass mob (npc)
+(defclass aggro (mob)
   ((ranged-weapon :accessor ranged-weapon)
    (poisonous :accessor poisonous)))
 
