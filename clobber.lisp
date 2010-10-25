@@ -1,17 +1,5 @@
 (in-package :clobber)
 
-;; Assets
-
-;; This should either be turned into a macro or another lookup table
-
-;; Macro could look like:
-;; (defmacro make-sprite (name filename)
-;;            (let ((sym1 (concatenate 'string "*" name "-sprite-path*"))
-;;                  (path (concatenate 'string "#p\"" filename "\""))
-;;                  (sym2 (concatenate 'string "*" name "-sprite*")))
-;;              (values `(format nil "(defparameter ~A ~A)" ',sym1 ,path)
-;;                      `(format nil "(defvar ~A)" ,sym2))))
-
 (defun add-object-to-lookup-table (id name)
   (setf (gethash id *object-lookup-table*) name))
 
@@ -29,11 +17,11 @@
 
 (defun initialize-sprite-lookup-table ()
   "This function initializes the *sprite-lookup-table* with it's starting values."
-  (add-sprite-to-lookup-table 'empty  #p"empty.png")
-  (add-sprite-to-lookup-table 'player #p"player.png")
-  (add-sprite-to-lookup-table 'earth  #p"earth.png")
-  (add-sprite-to-lookup-table 'stone  #p"stone.png")
-  (add-sprite-to-lookup-table 'grass  #p"grass.png"))
+  (add-sprite-to-lookup-table 'empty  (asdf:system-relative-pathname :clobber "images/empty.png"))
+  (add-sprite-to-lookup-table 'player (asdf:system-relative-pathname :clobber "images/player.png"))
+  (add-sprite-to-lookup-table 'earth  (asdf:system-relative-pathname :clobber "images/earth.png"))
+  (add-sprite-to-lookup-table 'stone  (asdf:system-relative-pathname :clobber "images/stone.png"))
+  (add-sprite-to-lookup-table 'grass  (asdf:system-relative-pathname :clobber "images/grass.png")))
 
 ;; (defun initialize-sprites ()
 ;;   (maphash #'sdl:load-image *sprite-lookup-table*))
@@ -76,3 +64,17 @@
   (iter outer (for i below (array-dimension arr 0))
         (iter (for j below (array-dimension arr 1))
               (in outer (setf (aref arr i j) (funcall `,fn (aref arr i j)))))))
+
+
+
+;; Assets
+
+;; This should either be turned into a macro or another lookup table
+
+;; Macro could look like:
+;; (defmacro make-sprite (name filename)
+;;            (let ((sym1 (concatenate 'string "*" name "-sprite-path*"))
+;;                  (path (concatenate 'string "#p\"" filename "\""))
+;;                  (sym2 (concatenate 'string "*" name "-sprite*")))
+;;              (values `(format nil "(defparameter ~A ~A)" ',sym1 ,path)
+;;                      `(format nil "(defvar ~A)" ,sym2))))
