@@ -10,11 +10,6 @@
 
 (defparameter *player* (make-instance 'player :y 0 :x 0))
 
-(defparameter *mobs* (vector (make-instance 'mob :x (random 200) :y (random 200))))
-
-(defparameter *chests* nil)
-
-
 (defparameter *layer-0* (make-array '(10 10)
                                     :initial-contents '((0 0 0 0 0 0 0 0 0 0)
                                                         (0 0 0 0 0 0 0 0 0 0)
