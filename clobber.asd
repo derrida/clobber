@@ -10,5 +10,6 @@
                (:file "classes")
                (:file "init")
                (:file "clobber")
-               (:file "game")
-               (:file "model")))
+               (:file "model")
+               (:file "events")
+               (:file "game")))
