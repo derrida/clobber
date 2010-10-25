@@ -4,8 +4,8 @@
 
 (let ((counter 0))
   (defun add-object (name)
-    (setf (gethash counter *object-lookup-table*) name)
-    (incf counter)))
+      (setf (gethash counter *object-lookup-table*) name)
+      (incf counter)))
 
 (defun initialize-object-table ()
   (add-object 'empty)

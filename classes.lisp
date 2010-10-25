@@ -4,7 +4,8 @@
 (defclass tile ()
   ((blocks-light :accessor blocks-light :initform nil)
    (blocks-move :accessor blocks-move :initform nil)
-   (sprite :accessor sprite :initform nil :initarg :sprite)))
+   (sprite :accessor sprite :initform nil :initarg :sprite)
+   (top-sprite :accessor top-sprite :initform nil :initarg :top-sprite)))
 
 (defclass burnable ()
   ((burning :accessor burning :initform nil)))
