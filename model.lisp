@@ -7,6 +7,9 @@
 ;;; [ ]  Add slot to items which can be used to map them to a fixnum (integer)
 ;;;
 ;;; [ ]  Add function to write out the world so it can persist
+(defun get-player-location ()
+  (values (x-pos *player*) (y-pos *player*)))
+
 (defun add-layer ()
   (push (make-array '(10 10)) *world*))
 
@@ -29,4 +32,3 @@
 
 (defun layer-above-player ()
   (nth (- (layer *player*) 1) *world*))
-

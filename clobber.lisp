@@ -1,48 +1,53 @@
 (in-package :clobber)
 
-(defun add-object-to-lookup-table (id name)
-  (setf (gethash id *object-lookup-table*) name))
+;;; Object Functions
 
-(defun initialize-object-lookup-table ()
-  (add-object-to-lookup-table 0 'empty)
-  (add-object-to-lookup-table 1 'player)
-  (add-object-to-lookup-table 2 'earth)
-  (add-object-to-lookup-table 3 'stone)
-  (add-object-to-lookup-table 4 'grass))
+(let ((counter 0))
+  (defun add-object (name)
+    (setf (gethash counter *object-lookup-table*) name)
+    (incf counter)))
 
-(defun add-sprite-to-lookup-table (name filename)
+(defun initialize-object-table ()
+  (add-object 'empty)
+  (add-object 'player)
+  (add-object 'earth)
+  (add-object 'stone)
+  (add-object 'grass))
+
+(defun lookup-object (id)
+  (gethash id *object-lookup-table*))
+
+;;; Sprite Functions
+
+(defun add-sprite (name)
   "This function adds a sprite/path pair to the *sprite-lookup-table* hash-table."
-  (setf (gethash name *sprite-lookup-table*) (sdl:load-image filename)))
-  ;(push (sdl:load-image filename) sdl:*default-image-path*))
+  (setf (gethash name *sprite-lookup-table*) (sdl:load-image (asdf:system-relative-pathname :clobber (concatenate 'string "images/" (string-downcase (symbol-name name)) ".png")))))
 
-(defun initialize-sprite-lookup-table ()
+(defun initialize-sprite-table ()
   "This function initializes the *sprite-lookup-table* with it's starting values."
-  (add-sprite-to-lookup-table 'empty  (asdf:system-relative-pathname :clobber "images/empty.png"))
-  (add-sprite-to-lookup-table 'player (asdf:system-relative-pathname :clobber "images/player.png"))
-  (add-sprite-to-lookup-table 'earth  (asdf:system-relative-pathname :clobber "images/earth.png"))
-  (add-sprite-to-lookup-table 'stone  (asdf:system-relative-pathname :clobber "images/stone.png"))
-  (add-sprite-to-lookup-table 'grass  (asdf:system-relative-pathname :clobber "images/grass.png")))
+  (add-sprite 'empty)
+  (add-sprite 'player)
+  (add-sprite 'earth)
+  (add-sprite 'stone)
+  (add-sprite 'grass))
 
-;; (defun initialize-sprites ()
-;;   (maphash #'sdl:load-image *sprite-lookup-table*))
+(defun lookup-sprite (object)
+  (gethash object *sprite-lookup-table*))
 
-;;  To generate the skill map we can ask the player a bunch
-;;  of silly sort of relevant questions that deduce a set of
-;;  values for (rand x y) forms ... which reminds me:
-(defun rand (low high)
-  (+ (random (- high low))
-     low))
+;;; Print Functions
+(defun print-hash-entry (key value)
+  (format t "The value associated with the key ~S is ~S~%" key value))
 
-(declaim (inline bound))
-(defun bound (number min max)
-  (if (< number min)
-      min
-      (if (> number max)
-          max
-          number)))
+(defun print-hash-table (table)
+  (maphash #'print-hash-entry table))
 
-(defun get-player-location ()
-  (values (x-pos *player*) (y-pos *player*)))
+(defun print-object-table ()
+  (print-hash-table *object-lookup-table*))
+
+(defun print-sprite-table ()
+  (print-hash-table *sprite-lookup-table*))
+
+;;; Render Functions
 
 (defun render-tiles ()
   "This function renders  tiles across the default SDL window."
@@ -52,29 +57,3 @@
               (render (lookup-sprite (lookup-object (value-at i j))) (* i 8) (* j 8))
               (when (> val 0)
                   (render (lookup-sprite (lookup-object val)) (* i 8) (* j 8)))))))
-
-(defun lookup-object (id)
-  (gethash id *object-lookup-table*))
-
-(defun lookup-sprite (object)
-  (gethash object *sprite-lookup-table*))
-
-(defun maparray (fn arr)
-  "This function maps a function across the values of an array destructively."
-  (iter outer (for i below (array-dimension arr 0))
-        (iter (for j below (array-dimension arr 1))
-              (in outer (setf (aref arr i j) (funcall `,fn (aref arr i j)))))))
-
-
-
-;; Assets
-
-;; This should either be turned into a macro or another lookup table
-
-;; Macro could look like:
-;; (defmacro make-sprite (name filename)
-;;            (let ((sym1 (concatenate 'string "*" name "-sprite-path*"))
-;;                  (path (concatenate 'string "#p\"" filename "\""))
-;;                  (sym2 (concatenate 'string "*" name "-sprite*")))
-;;              (values `(format nil "(defparameter ~A ~A)" ',sym1 ,path)
-;;                      `(format nil "(defvar ~A)" ,sym2))))

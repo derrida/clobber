@@ -13,8 +13,8 @@
   (sdl:enable-unicode)
   (sdl-ttf:init-ttf)
   (sdl:enable-key-repeat 500 150)
-  (initialize-object-lookup-table)
-  (initialize-sprite-lookup-table))
+  (initialize-object-table)
+  (initialize-sprite-table))
 
 (defun draw ()
   "This code is looped repeatedly while main is run. The order of drawing code is important."
