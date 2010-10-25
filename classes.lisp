@@ -35,17 +35,10 @@
    (att :initarg :str :accessor att)
    (tool :initarg nil :accessor tool)))
 
-(defclass container ()
-  ((slot-1 :initform nil)
-   (slot-2 :initform nil)
-   (slot-3 :initform nil)
-   (slot-4 :initform nil)
-   (slot-5 :initform nil)
-   (slot-6 :initform nil)
-   (slot-7 :initform nil)
-   (slot-8 :initform nil)))
-
-(defclass rucksack (container) ())
+(defmacro make-container (name number-of-slots)
+  `(defclass ,name () 
+     ,(loop for i from 0 to number-of-slots
+         collect (list (intern (concatenate 'string "slot-" (write-to-string i)))))))
 
 (defclass player (mob)
   ((layer :initform 0 :accessor layer)
@@ -54,6 +47,21 @@
 (defclass aggro (mob)
   ((ranged-weapon :accessor ranged-weapon)
    (poisonous :accessor poisonous)))
+
+(defmacro defholder (holder-name)
+  (let ((slots))
+    (maphash #'(lambda (key value)
+                 (declare (ignore key))
+                 (push (list value
+                             :type 'simple-vector
+                             :initform 'nil
+                             :accessor value) slots)) *object-lookup-table*)
+    `(defclass ,holder-name ()
+       ,slots)))
+
+(defgeneric add (holder obj)
+  (:method (holder obj)
+    (vector-push-extend obj `(,obj holder))))
 
 (defgeneric move (layer obj nx ny)
   (:method (layer (player player) nx ny)
@@ -67,9 +75,9 @@
   (:documentation "Renders a unit onto the default sdl window.")
   (:method ((player player) x y)
     (sdl:draw-surface-at-* (lookup-sprite 'player) (* x 8) (* y 8)))
-   (:method ((mob mob) x y)
-     (sdl:draw-box-* (x-pos (first *mobs*)) (y-pos (first *mobs*)) 2 2
-                     :color (color *player*)))
+;   (:method ((mob mob) x y)
+;     (sdl:draw-box-* (x-pos (first *mobs*)) (y-pos (first *mobs*)) 2 2
+;                     :color (color *player*)))
   (:method ((sprite sdl:surface) x y)    
     (sdl:draw-surface-at-* sprite x y)))
 
