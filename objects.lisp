@@ -1,8 +1,21 @@
 (in-package :clobber)
 
-;;; Object Definitions
+(defmacro add-object (name)
+  `(defobject ,name () :inherit (unit)))
 
-(defobject unit (x y hp inventory))
+
+(defun initialize-object-table ()
+  (add-object earth)
+  (add-object stone)
+  (add-object water)
+  (add-object dirt)
+  (add-object grass)
+  (add-object fire)
+  (add-object clay)
+  (add-object air))
+
+(defun lookup-object (id)
+  (gethash id *object-lookup-table*))
 
 ;; (defobject earth () :inherit (unit)) ; 0
 ;; (defobject stone () :inherit (unit)) ; 1
@@ -18,19 +31,3 @@
 ;;       (setf (gethash counter *object-lookup-table*) name)
 ;;       (defobject name () :inherit (unit))
 ;;       (incf counter)))
-
-(defmacro add-object (name)
-  `(defobject ,name () :inherit (unit)))
-
-(defun initialize-object-table ()
-  (add-object earth)
-  (add-object stone)
-  (add-object water)
-  (add-object dirt)
-  (add-object grass)
-  (add-object fire)
-  (add-object clay)
-  (add-object air))
-
-(defun lookup-object (id)
-  (gethash id *object-lookup-table*))

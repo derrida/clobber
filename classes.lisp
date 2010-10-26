@@ -10,6 +10,8 @@
        ,(loop for i from 0 to (1- number-of-slots)
            collect (list (nth i slots))))))
 
+;;; Object Definitions
+(defobject unit (x y hp inventory))
 
 (defmacro defcontainer (name
                         &key
