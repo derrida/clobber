@@ -31,8 +31,9 @@
       (name :initform ,name :accessor name)
       (hp :initform ,hp :accessor hp)
       (str :initform ,str :accessor str)
-      (bag :initform (make-instance 'rucksack) :accessor bag)))
-  (defparameter *player* (make-instance 'player)))
+      (bag :initform (make-instance 'rucksack) :accessor bag))))
+
+(defparameter *player* (make-instance 'player))
 
 (defclass world ()
   ((layers :type vector :initform (list (make-array '(10 10)) (make-array '(10 10))) :accessor layers)
