@@ -48,9 +48,7 @@
 (defgeneric create (unit)
   (:documentation "Creates any type of unit and pushes it onto that unit's stack.")
   (:method ((player player))
-    (make-instance 'player :x 0
-                           :y 0
-                           :color sdl:*red*)))
+    (make-instance 'player)))
   ;; (:method ((mob mob))
   ;;   (push (make-instance 'mob :x (random 200)
   ;;                             :y (random 200)

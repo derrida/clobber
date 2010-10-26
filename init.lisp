@@ -8,7 +8,7 @@
 (defparameter *sprite-lookup-table* (make-hash-table)
   "This hash-table will contain a set of sprite-name/sprite-pathname pairs.")
 
-(defparameter *player* (make-instance 'player :y 0 :x 0))
+;(defparameter *player* (make-instance 'player :y 0 :x 0))
 
 (defparameter *layer-0* (make-array '(10 10)
                                     :initial-contents '((0 0 0 0 0 0 0 0 0 0)
