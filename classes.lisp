@@ -1,9 +1,9 @@
 (in-package :clobber)
 
-(defmacro defobject (name inherits &rest slots)
+(defmacro defobject (name (&body slots) &key (inherit nil))
   (let ((number-of-slots (length slots)))
-    `(defclass ,name ,(if inherits
-                          inherits
+    `(defclass ,name ,(if inherit
+                          inherit
                           '())
        ,(loop for i from 0 to (1- number-of-slots)
            collect (list (nth i slots))))))
