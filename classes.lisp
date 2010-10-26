@@ -1,40 +1,5 @@
 (in-package :clobber)
 
-;; TILES
-(defclass tile ()
-  ((blocks-light :accessor blocks-light :initform nil)
-   (blocks-move :accessor blocks-move :initform nil)
-   (sprite :accessor sprite :initform nil :initarg :sprite)
-   (top-sprite :accessor top-sprite :initform nil :initarg :top-sprite)))
-
-(defclass burnable ()
-  ((burning :accessor burning :initform nil)))
-
-(defclass grass (tile burnable) ())
-
-(defclass abyss (tile)
-  ((blocks-light :initform t)
-   (blocks-move :initform t)))
-
-(defclass unit ()
-  ((x-position :accessor x-pos :initform 0          :initarg :x     :type fixnum)
-   (y-position :accessor y-pos :initform 0          :initarg :y     :type fixnum)
-   (hit-points :accessor hp    :initform nil        :initarg :hp    :type fixnum)
-   (color      :accessor color :initform sdl:*cyan* :initarg :color :type sdl:color)))
-
-(defclass item (unit)
-  ((owner :initform nil)))
-
-(defclass tool (item) ())
-
-(defclass mob (unit container)
-  ((race :accessor race :initform 'human :initarg :race)
-   (level :initarg :level :accessor level)
-   (hp :initarg :hp :accessor hp)
-   (def :initarg :dex :accessor def)
-   (att :initarg :str :accessor att)
-   (tool :initarg nil :accessor tool)))
-
 (defmacro defobject (name layer &rest slots)
   `(defclass ,name ()
      ((layer ,layer)
@@ -56,14 +21,6 @@
     `(defclass ,holder-name ()
        ,slots)))
 
-(defclass player (mob)
-  ((layer :initform 0 :accessor layer)
-   (xp :initarg :xp :accessor xp)))
-
-(defclass aggro (mob)
-  ((ranged-weapon :accessor ranged-weapon)
-   (poisonous :accessor poisonous)))
-
 (defgeneric add (holder obj)
   (:method (holder obj)
     (vector-push-extend obj `(,obj holder))))
@@ -74,7 +31,6 @@
     (setf (x-pos player) nx)
     (setf (y-pos player) ny)
     (setf (aref (nth layer *world*) ny nx) 1)))
-
 
 (defgeneric render (unit x y)
   (:documentation "Renders a unit onto the default sdl window.")
@@ -104,3 +60,49 @@
 ;  (:documentation "The dig function decides the outcome of using a certain tool on an object")
 ;  (:method ((tool shovel) (object earth))
 ;    (create 'dirt)))
+
+
+;; (defclass player (mob)
+;;   ((layer :initform 0 :accessor layer)
+;;    (xp :initarg :xp :accessor xp)))
+
+
+
+;; ;; TILES
+;; (defclass tile ()
+;;   ((blocks-light :accessor blocks-light :initform nil)
+;;    (blocks-move :accessor blocks-move :initform nil)
+;;    (sprite :accessor sprite :initform nil :initarg :sprite)
+;;    (top-sprite :accessor top-sprite :initform nil :initarg :top-sprite)))
+
+;; (defclass burnable ()
+;;   ((burning :accessor burning :initform nil)))
+
+;; (defclass grass (tile burnable) ())
+
+;; (defclass abyss (tile)
+;;   ((blocks-light :initform t)
+;;    (blocks-move :initform t)))
+
+;; (defclass unit ()
+;;   ((x-position :accessor x-pos :initform 0          :initarg :x     :type fixnum)
+;;    (y-position :accessor y-pos :initform 0          :initarg :y     :type fixnum)
+;;    (hit-points :accessor hp    :initform nil        :initarg :hp    :type fixnum)
+;;    (color      :accessor color :initform sdl:*cyan* :initarg :color :type sdl:color)))
+
+;; (defclass item (unit)
+;;   ((owner :initform nil)))
+
+;; (defclass tool (item) ())
+
+;; (defclass mob (unit container)
+;;   ((race :accessor race :initform 'human :initarg :race)
+;;    (level :initarg :level :accessor level)
+;;    (hp :initarg :hp :accessor hp)
+;;    (def :initarg :dex :accessor def)
+;;    (att :initarg :str :accessor att)
+;;    (tool :initarg nil :accessor tool)))
+
+;; (defclass aggro (mob)
+;;   ((ranged-weapon :accessor ranged-weapon)
+;;    (poisonous :accessor poisonous)))
