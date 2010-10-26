@@ -1,6 +1,8 @@
 (in-package :clobber)
-
-(defmacro defobject (name (&body slots) &key (inherit nil))
+(defmacro defobject (name
+                     (&body slots)
+                     &key
+                     (inherit nil))
   (let ((number-of-slots (length slots)))
     `(defclass ,name ,(if inherit
                           inherit
@@ -8,12 +10,40 @@
        ,(loop for i from 0 to (1- number-of-slots)
            collect (list (nth i slots))))))
 
-(defmacro make-container (name number-of-slots)
-  `(defclass ,name () 
-     ,(loop for i from 0 to number-of-slots
+
+(defmacro defcontainer (name
+                        &key
+                        (slots 6))
+  `(defclass ,name (unit) 
+     ,(loop for i from 0 to slots
          collect (list (intern (concatenate 'string "slot-" (write-to-string i)))))))
 
-(defmacro defholder (holder-name)
+(defmacro defplayer (&key
+                     (name "John Galt")
+                     (hp 100)
+                     (str 10))
+  `(defclass player (unit)
+     ((name :initform ,name)
+      (hp :initform ,hp)
+      (str :initform ,str)
+      (bag :initform (make-instance 'rucksack)))))
+
+;;; We'll move these to objects.lisp after or something
+(defobject unit (x y hp inventory))
+
+(defobject earth () :inherit (unit)) ; 0
+(defobject stone () :inherit (unit)) ; 1
+(defobject water () :inherit (unit)) ; 2
+(defobject dirt  () :inherit (unit)) ; 3
+(defobject fire  () :inherit (unit)) ; 4
+(defobject clay  () :inherit (unit)) ; 5
+(defobject air   () :inherit (unit)) ; 6
+
+(defcontainer rucksack :slots 16) ; 7
+(defplayer)
+(defparameter *player* (make-instance 'player))
+
+(defmacro deftable (holder-name)
   (let ((slots))
     (maphash #'(lambda (key value)
                  (declare (ignore key))
@@ -35,13 +65,8 @@
     (setf (y-pos player) ny)
     (setf (aref (nth layer *world*) ny nx) 1)))
 
-(defgeneric render (unit x y)
-  (:documentation "Renders a unit onto the default sdl window.")
-  (:method ((player player) x y)
-    (sdl:draw-surface-at-* (lookup-sprite 'player) (* x 8) (* y 8)))
-;   (:method ((mob mob) x y)
-;     (sdl:draw-box-* (x-pos (first *mobs*)) (y-pos (first *mobs*)) 2 2
-;                     :color (color *player*)))
+(defgeneric render (object x y)
+  (:documentation "Renders a object onto the default sdl window.")
   (:method ((sprite sdl:surface) x y)    
     (sdl:draw-surface-at-* sprite x y)))
 
@@ -49,61 +74,3 @@
   (:documentation "Creates any type of unit and pushes it onto that unit's stack.")
   (:method ((player player))
     (make-instance 'player)))
-  ;; (:method ((mob mob))
-  ;;   (push (make-instance 'mob :x (random 200)
-  ;;                             :y (random 200)
-  ;;                             :color sdl:*red*) *mob*))
-  ;;)
-
-; brainstorming
-;
-;(defgeneric dig (tool object)
-;  (:documentation "The dig function decides the outcome of using a certain tool on an object")
-;  (:method ((tool shovel) (object earth))
-;    (create 'dirt)))
-
-
-;; (defclass player (mob)
-;;   ((layer :initform 0 :accessor layer)
-;;    (xp :initarg :xp :accessor xp)))
-
-
-
-;; ;; TILES
-;; (defclass tile ()
-;;   ((blocks-light :accessor blocks-light :initform nil)
-;;    (blocks-move :accessor blocks-move :initform nil)
-;;    (sprite :accessor sprite :initform nil :initarg :sprite)
-;;    (top-sprite :accessor top-sprite :initform nil :initarg :top-sprite)))
-
-;; (defclass burnable ()
-;;   ((burning :accessor burning :initform nil)))
-
-;; (defclass grass (tile burnable) ())
-
-;; (defclass abyss (tile)
-;;   ((blocks-light :initform t)
-;;    (blocks-move :initform t)))
-
-;; (defclass unit ()
-;;   ((x-position :accessor x-pos :initform 0          :initarg :x     :type fixnum)
-;;    (y-position :accessor y-pos :initform 0          :initarg :y     :type fixnum)
-;;    (hit-points :accessor hp    :initform nil        :initarg :hp    :type fixnum)
-;;    (color      :accessor color :initform sdl:*cyan* :initarg :color :type sdl:color)))
-
-;; (defclass item (unit)
-;;   ((owner :initform nil)))
-
-;; (defclass tool (item) ())
-
-;; (defclass mob (unit container)
-;;   ((race :accessor race :initform 'human :initarg :race)
-;;    (level :initarg :level :accessor level)
-;;    (hp :initarg :hp :accessor hp)
-;;    (def :initarg :dex :accessor def)
-;;    (att :initarg :str :accessor att)
-;;    (tool :initarg nil :accessor tool)))
-
-;; (defclass aggro (mob)
-;;   ((ranged-weapon :accessor ranged-weapon)
-;;    (poisonous :accessor poisonous)))
