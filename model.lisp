@@ -11,12 +11,7 @@
   (values (x-pos *player*) (y-pos *player*)))
 
 (defun add-layer ()
-  (push (make-array '(10 10)) *world*))
-
-(defun reset-world ()
-  (setf *layer-0* (make-array '(10 10) :initial-element 0))
-  (setf (aref *layer-0* 5 5) 1)
-  (setf *world* (list *layer-0* *layer-1*)))
+  (push (make-array '(10 10)) (layers *world*)))
 
 (defun value-at (x y)
   (aref (layer-under-player) y x))
