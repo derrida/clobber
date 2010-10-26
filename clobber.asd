@@ -13,6 +13,8 @@
   :components ((:file "package")
                (:file "classes")
                (:file "init")
+               (:file "objects")
+               (:file "sprites")
                (:file "clobber")
                (:file "model")
                (:file "events")

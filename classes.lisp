@@ -40,14 +40,6 @@
      ,(loop for i from 0 to number-of-slots
          collect (list (intern (concatenate 'string "slot-" (write-to-string i)))))))
 
-(defclass player (mob)
-  ((layer :initform 0 :accessor layer)
-   (xp :initarg :xp :accessor xp)))
-
-(defclass aggro (mob)
-  ((ranged-weapon :accessor ranged-weapon)
-   (poisonous :accessor poisonous)))
-
 (defmacro defholder (holder-name)
   (let ((slots))
     (maphash #'(lambda (key value)
@@ -58,6 +50,14 @@
                              :accessor value) slots)) *object-lookup-table*)
     `(defclass ,holder-name ()
        ,slots)))
+
+(defclass player (mob)
+  ((layer :initform 0 :accessor layer)
+   (xp :initarg :xp :accessor xp)))
+
+(defclass aggro (mob)
+  ((ranged-weapon :accessor ranged-weapon)
+   (poisonous :accessor poisonous)))
 
 (defgeneric add (holder obj)
   (:method (holder obj)
