@@ -3,7 +3,8 @@
                      (&body slots)
                      &key
                      (inherit nil))
-  (let ((number-of-slots (length slots)))
+  (let ((number-of-slots (length slots))
+        (slott '()))
     `(defclass ,name ,(if inherit
                           inherit
                           '())
@@ -21,14 +22,16 @@
          collect (list (intern (concatenate 'string "slot-" (write-to-string i)))))))
 
 (defmacro defplayer (&key
+                     (layer 0)
                      (name "John Galt")
                      (hp 100)
-                     (str 10))
+                 (str 10))
   `(defclass player (unit)
-     ((name :initform ,name)
-      (hp :initform ,hp)
-      (str :initform ,str)
-      (bag :initform (make-instance 'rucksack)))))
+     ((layer :initform ,layer :accessor layer)
+      (name :initform ,name :accessor name)
+      (hp :initform ,hp :accessor hp)
+      (str :initform ,str :accessor str)
+      (bag :initform (make-instance 'rucksack) :accessor bag))))
 
 (defcontainer rucksack :slots 16) ; 7
 (defplayer)
