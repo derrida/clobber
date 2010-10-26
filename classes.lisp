@@ -1,5 +1,5 @@
 (in-package :clobber)
-;?
+
 (defmacro defobject (name
                      (&body slots)
                      &key
@@ -32,6 +32,7 @@
       (x-pos :initform 5 :accessor x-pos)
       (y-pos :initform 5 :accessor y-pos)
       (hp :initform ,hp :accessor hp)
+      (direction :initform 0 :accessor direction)
       (str :initform ,str :accessor str)
       (bag :initform (make-instance 'rucksack) :accessor bag))))
 
@@ -72,9 +73,9 @@
       (setf (y-pos player) ny)
       (setf (aref (nth layer (layers *world*)) ny nx) 1))))
 
-(defgeneric render (object x y)
+(defgeneric render (sprite x y)
   (:documentation "Renders a object onto the default sdl window.")
-  (:method ((sprite sdl:surface) x y)    
+  (:method (sprite x y)
     (sdl:draw-surface-at-* sprite x y)))
 
 (defgeneric create (unit)

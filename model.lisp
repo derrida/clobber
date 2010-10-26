@@ -1,12 +1,5 @@
 (in-package :clobber)
 
-;;; TODO: 
-;;; [ ]  Add slot to player class that tells us which level the
-;;;      player is currently on. (layer?)
-;;;
-;;; [ ]  Add slot to items which can be used to map them to a fixnum (integer)
-;;;
-;;; [ ]  Add function to write out the world so it can persist
 (defun player-location ()
   (cons (x-pos *player*) (y-pos *player*)))
 
