@@ -65,10 +65,10 @@
 
 (defgeneric move (layer obj nx ny)
   (:method (layer (player player) nx ny)
-    (setf (aref (nth layer *world*) (y-pos player) (x-pos player)) 0)
+    (setf (aref (nth layer (layers *world*)) (y-pos player) (x-pos player)) 0)
     (setf (x-pos player) nx)
     (setf (y-pos player) ny)
-    (setf (aref (nth layer *world*) ny nx) 1)))
+    (setf (aref (nth layer (layers *world*)) ny nx) 1)))
 
 (defgeneric render (object x y)
   (:documentation "Renders a object onto the default sdl window.")
