@@ -20,10 +20,10 @@
   (aref layer y x))
 
 (defun layer-under-player ()
-  (nth (+ (layer *player*) 1) *world*))
+  (nth (+ (layer *player*) 1) (layers *world*)))
 
 (defun layer-at-player ()
-  (nth (layer *player*) *world*))
+  (nth (layer *player*) (layers *world*)))
 
 (defun layer-above-player ()
-  (nth (- (layer *player*) 1) *world*))
+  (nth (- (layer *player*) 1) (layers *world*)))
