@@ -1,9 +1,12 @@
 (in-package :clobber)
 
-(defmacro defobject (name layer &rest slots)
-  `(defclass ,name ()
-     ((layer ,layer)
-      ,slots)))
+(defmacro defobject (name inherits &rest slots)
+  (let ((number-of-slots (length slots)))
+    `(defclass ,name ,(if inherits
+                          inherits
+                          '())
+       ,(loop for i from 0 to (1- number-of-slots)
+           collect (list (nth i slots))))))
 
 (defmacro make-container (name number-of-slots)
   `(defclass ,name () 
