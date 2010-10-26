@@ -19,15 +19,3 @@
 (defun draw ()
   "This code is looped repeatedly while main is run. The order of drawing code is important."
   (render-tiles))
-
-(defun start ()
-  "This is starts the game."
-  (bt:make-thread
-   #'(lambda ()
-       (sdl:with-init ()
-           (setup)
-           (sdl:with-events ()
-             (:quit-event () (on-quit-event))
-             (:key-down-event (:key key) (on-key-down-event key))
-             (:mouse-button-down-event (:button button) (on-button-down-event button))
-             (:idle () (on-idle-event)))))))

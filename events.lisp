@@ -23,3 +23,15 @@
   (sdl:clear-display sdl:*black*)
   (draw)
   (sdl:update-display))
+
+(defun start ()
+  "This is starts the game."
+  (bt:make-thread
+   #'(lambda ()
+       (sdl:with-init ()
+           (setup)
+           (sdl:with-events ()
+             (:quit-event () (on-quit-event))
+             (:key-down-event (:key key) (on-key-down-event key))
+             (:mouse-button-down-event (:button button) (on-button-down-event button))
+             (:idle () (on-idle-event)))))))
