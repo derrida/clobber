@@ -35,6 +35,11 @@
    (att :initarg :str :accessor att)
    (tool :initarg nil :accessor tool)))
 
+(defmacro defobject (name layer &rest slots)
+  `(defclass ,name ()
+     ((layer ,layer)
+      ,slots)))
+
 (defmacro make-container (name number-of-slots)
   `(defclass ,name () 
      ,(loop for i from 0 to number-of-slots
