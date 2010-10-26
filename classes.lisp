@@ -28,17 +28,6 @@
       (str :initform ,str)
       (bag :initform (make-instance 'rucksack)))))
 
-;;; We'll move these to objects.lisp after or something
-(defobject unit (x y hp inventory))
-
-(defobject earth () :inherit (unit)) ; 0
-(defobject stone () :inherit (unit)) ; 1
-(defobject water () :inherit (unit)) ; 2
-(defobject dirt  () :inherit (unit)) ; 3
-(defobject fire  () :inherit (unit)) ; 4
-(defobject clay  () :inherit (unit)) ; 5
-(defobject air   () :inherit (unit)) ; 6
-
 (defcontainer rucksack :slots 16) ; 7
 (defplayer)
 (defparameter *player* (make-instance 'player))
