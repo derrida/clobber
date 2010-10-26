@@ -29,18 +29,20 @@
   `(defclass player (unit)
      ((layer :initform ,layer :accessor layer)      
       (name :initform ,name :accessor name)
+      (x-pos :initform 5 :accessor x-pos)
+      (y-pos :initform 5 :accessor y-pos)
       (hp :initform ,hp :accessor hp)
       (str :initform ,str :accessor str)
       (bag :initform (make-instance 'rucksack) :accessor bag))))
 
+(defcontainer rucksack :slots 16)
+(defplayer)
 (defparameter *player* (make-instance 'player))
 
 (defclass world ()
   ((layers :type vector :initform (list (make-array '(10 10)) (make-array '(10 10))) :accessor layers)
    (objects :type hash-table :initform (make-hash-table) :accessor objects)
    (sprites :type hash-table :initform (make-hash-table) :accessor sprites)))
-
-(defcontainer rucksack :slots 16)
 
 (defparameter *world* (make-instance 'world))
 
