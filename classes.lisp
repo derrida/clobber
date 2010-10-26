@@ -12,7 +12,7 @@
            collect (list (nth i slots))))))
 
 ;;; Object Definitions
-(defobject unit (x y hp inventory))
+(defobject unit (layer x y hp inventory))
 
 (defmacro defcontainer (name
                         &key
