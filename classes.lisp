@@ -11,7 +11,7 @@
        ,(loop for i from 0 to (1- number-of-slots)
            collect (list (nth i slots) :accessor (nth i slots))))))
 
-;;; Object Definitions
+;;; Unit Definition
 (defobject unit (layer x y hp inventory))
 
 (defmacro defcontainer (name
@@ -37,17 +37,18 @@
       (bag :initform (make-instance 'rucksack) :accessor bag))))
 
 (defcontainer rucksack :slots 16)
+
 (defplayer)
+
 (defparameter *player* (make-instance 'player))
 
 (defclass world ()
   ((layers :type vector :initform (list (make-array '(10 10)) (make-array '(10 10))) :accessor layers)
    (objects :type hash-table :initform (make-hash-table) :accessor objects)
+   (instances :type list :initform '() :accessor instances)
    (sprites :type hash-table :initform (make-hash-table) :accessor sprites)))
 
 (defparameter *world* (make-instance 'world))
-
-(defplayer)
 
 (defmacro deftable (table-name)
   (let ((slots))
